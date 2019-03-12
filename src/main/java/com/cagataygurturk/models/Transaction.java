@@ -11,14 +11,14 @@ public class Transaction implements Serializable, Storable {
 
     protected long id;
 
-    protected double amount;
+    protected double partialAmount;
 
     protected String type;
 
     protected long parentId;
 
     public Transaction(double amount, String type) {
-        this.amount = amount;
+        this.partialAmount = amount;
         this.type = type;
     }
 
@@ -37,13 +37,13 @@ public class Transaction implements Serializable, Storable {
         return this;
     }
 
-    @JsonProperty("amount")
+    @JsonProperty("partialAmount")
     public double getAmount() {
-        return amount;
+        return partialAmount;
     }
 
     public Transaction setAmount(double amount) {
-        this.amount = amount;
+        this.partialAmount = amount;
         return this;
     }
 
