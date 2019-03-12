@@ -80,6 +80,28 @@ public class TransactionsController {
                 header("Location", uri.getBaseUri() + "transactionservice/transactions/" + transaction.getId())
                 .build();
     }
+	
+	@PUT
+    @Path("transactions/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTransaction(@PathParam("id") long id, TransactionRequest transactionRequest) {
+
+        Transaction transaction;
+		try {
+			transaction = transactionService.updateTransaction(id, transactionRequest.amount, transactionRequest.type);
+		} catch (TransactionNotFoundException e) {
+			/**
+			 * It means transaction could not be found
+			 * We should throw a NotAcceptableException
+			 */
+			throw new NotAcceptableException(e.getMessage());
+		}
+
+        return Response.status(201).
+                header("Location", uri.getBaseUri() + "transactionservice/transactions/" + transaction.getId())
+                .build();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

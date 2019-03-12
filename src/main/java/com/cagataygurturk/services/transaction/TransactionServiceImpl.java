@@ -55,6 +55,17 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction(amount, type, parentTransaction);
         return this.saveTransactionToRepository(transaction);
     }
+	
+	public Transaction updateTransaction(long transactionId, double amount, String type) throws TransactionNotFoundException {
+        /**
+         * Get transaction
+         */
+        Transaction transaction = this.getTransactionById(transactionId);
+        transaction.setAmount(amount);
+		transaction.setType(type);
+		System.out.println(calculateSum(transaction)); // for logging
+        return this.saveTransactionToRepository(transaction);
+    }
 
     public Sum calculateSum(Transaction transaction) {
         double sum = 0;
