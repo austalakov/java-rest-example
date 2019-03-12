@@ -16,6 +16,8 @@ import java.util.Map;
 public class TransactionServiceImpl implements TransactionService {
 
     protected TransactionRepository repository;
+	
+	private static final Double FACTOR = 1.1;
 
     @Autowired
     public TransactionServiceImpl(@Qualifier("transaction_repository_inmemory")
@@ -63,6 +65,8 @@ public class TransactionServiceImpl implements TransactionService {
         while (it.hasNext()) {
             sum += ((Transaction) it.next()).getAmount();
         }
+		
+		sum *= FACTOR;
 
         return new Sum(sum);
     }
