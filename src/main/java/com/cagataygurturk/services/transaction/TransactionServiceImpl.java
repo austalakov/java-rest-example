@@ -18,6 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
     protected TransactionRepository repository;
 	
 	private static final Double FACTOR = 1.1;
+	private static final Double MIN_AMOUNT = 10.0;
 
     @Autowired
     public TransactionServiceImpl(@Qualifier("transaction_repository_inmemory")
@@ -38,7 +39,17 @@ public class TransactionServiceImpl implements TransactionService {
         return transaction;
     }
 
+    private void checkTransactionValid(Transaction transaction) {
+        if(transaction.getAmount() < MIN_AMOUNT) {
+            throw new InvalidTransactionException("Transaction is invalid: amount needs to be greater than " + MIN_AMOUNT.toString());
+        }
+        if(transaction.getType().isEmpty()) {
+            throw new InvalidTransactionException("Transaction is invalid: type must be specified");
+        }
+    }
+
     protected Transaction saveTransactionToRepository(Transaction transaction) {
+        checkTransactionValid(transaction);
         return this.repository.saveTransaction(transaction);
     }
 
@@ -93,4 +104,5 @@ public class TransactionServiceImpl implements TransactionService {
 
         return transactions;
     }
+
 }

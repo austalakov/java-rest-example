@@ -13,6 +13,8 @@ public interface TransactionService {
 
     Transaction createNewTransaction(double amount, String type, long parentId);
 
+    Transaction updateTransaction(long transactionId, double amount, String type) throws TransactionNotFoundException;
+
     Sum calculateSum(Transaction transaction);
 
     ArrayList<Long> getTransactionsByType(String type);
